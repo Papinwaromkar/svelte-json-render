@@ -20,17 +20,6 @@
 		},
 		reset: async () => {
 			state.set('/count', 0);
-		},
-		toggleItem: async (params: Record<string, unknown>) => {
-			const index = params.index as number;
-			const todos = (
-				state.get('/todos') as Array<{
-					id: number;
-					title: string;
-					completed: boolean;
-				}>
-			).map((item, i) => (i === index ? { ...item, completed: !item.completed } : item));
-			state.set('/todos', todos);
 		}
 	};
 </script>

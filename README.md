@@ -1,11 +1,11 @@
 # svelte-json-render
 
-Sample SvelteKit app using [`@json-render/core`](https://www.npmjs.com/package/@json-render/core) and [`@json-render/svelte`](https://www.npmjs.com/package/@json-render/svelte).
+Sample SvelteKit app using `@json-render/core`, `@json-render/svelte`, and `@json-render/shadcn-svelte`.
 
 ## Setup
 
 ```sh
-npm install @json-render/core @json-render/svelte zod
+npm install @json-render/core @json-render/svelte @json-render/shadcn-svelte zod tw-animate-css
 ```
 
 ## Develop
@@ -14,20 +14,18 @@ npm install @json-render/core @json-render/svelte zod
 npm run dev
 ```
 
-Open the app to see a JSON-driven UI: counter, todos, visibility conditions, and two-way bound input.
-
 ## What's inside
 
 | Path | Role |
 |------|------|
-| `src/lib/catalog.ts` | Component/action schema via `schema.createCatalog` |
-| `src/lib/registry.ts` | Maps catalog types to Svelte components |
-| `src/lib/spec.ts` | Demo JSON spec (element tree + state) |
-| `src/lib/components/` | Stack, Card, Text, Button, Badge, ListItem, Input |
-| `src/lib/DemoRenderer.svelte` | Action/visibility/validation providers + `Renderer` |
+| `src/lib/catalog.ts` | Picks shadcn component definitions + actions |
+| `src/lib/registry.ts` | Maps those to `shadcnComponents` |
+| `src/lib/spec.ts` | Demo JSON spec |
+| `src/lib/DemoRenderer.svelte` | Providers + `Renderer` |
 | `src/routes/+page.svelte` | `StateProvider` + demo |
+| `src/routes/layout.css` | Tailwind + shadcn theme tokens |
 
 ## Learn more
 
 - [json-render.dev](https://json-render.dev)
-- [Svelte API docs](https://json-render.dev/docs/api/svelte)
+- [shadcn-svelte API](https://json-render.dev/docs/api/shadcn-svelte)

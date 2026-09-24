@@ -14,28 +14,27 @@ export const demoSpec: Spec = {
 	elements: {
 		root: {
 			type: 'Stack',
-			props: { gap: 24, padding: 24, direction: 'vertical' },
+			props: { gap: 'lg', direction: 'vertical' },
 			children: ['header', 'counter-card', 'milestone-badge', 'todos-card', 'input-card']
 		},
 		header: {
-			type: 'Text',
+			type: 'Heading',
 			props: {
-				content: '@json-render/svelte demo',
-				size: 'xl',
-				weight: 'bold'
+				text: '@json-render/shadcn-svelte demo',
+				level: 'h1'
 			}
 		},
 		'counter-card': {
 			type: 'Card',
 			props: {
 				title: 'Counter',
-				subtitle: 'Click the buttons to change the count'
+				description: 'Click the buttons to change the count'
 			},
 			children: ['counter-body']
 		},
 		'counter-body': {
 			type: 'Stack',
-			props: { gap: 12, direction: 'horizontal', align: 'center' },
+			props: { gap: 'md', direction: 'horizontal', align: 'center' },
 			children: ['decrement-btn', 'counter-value', 'increment-btn', 'reset-btn']
 		},
 		'decrement-btn': {
@@ -44,11 +43,10 @@ export const demoSpec: Spec = {
 			on: { press: { action: 'decrement' } }
 		},
 		'counter-value': {
-			type: 'Text',
+			type: 'Heading',
 			props: {
-				content: { $state: '/count' },
-				size: 'xl',
-				weight: 'bold'
+				text: { $state: '/count' },
+				level: 'h2'
 			}
 		},
 		'increment-btn': {
@@ -63,46 +61,46 @@ export const demoSpec: Spec = {
 		},
 		'milestone-badge': {
 			type: 'Badge',
-			props: { label: 'Milestone reached: 10!', color: '#10b981' },
+			props: { text: 'Milestone reached: 10!', variant: 'default' },
 			visible: { $state: '/count', gte: 10 }
 		},
 		'todos-card': {
 			type: 'Card',
-			props: { title: 'Todo List', subtitle: 'Your tasks' },
+			props: { title: 'Todo List', description: 'Your tasks' },
 			children: ['todos-list']
 		},
 		'todos-list': {
 			type: 'Stack',
-			props: { gap: 8, direction: 'vertical' },
+			props: { gap: 'sm', direction: 'vertical' },
 			repeat: { statePath: '/todos', key: 'id' },
 			children: ['todo-item']
 		},
 		'todo-item': {
-			type: 'ListItem',
+			type: 'Checkbox',
 			props: {
-				title: { $item: 'title' },
-				completed: { $item: 'completed' }
-			},
-			on: {
-				press: { action: 'toggleItem', params: { index: { $index: true } } }
+				label: { $item: 'title' },
+				name: { $item: 'id' },
+				checked: { $bindItem: 'completed' }
 			}
 		},
 		'input-card': {
 			type: 'Card',
 			props: {
 				title: 'Bound Input',
-				subtitle: 'Type to update state and see reactive text'
+				description: 'Type to update state and see reactive text'
 			},
 			children: ['input-body']
 		},
 		'input-body': {
 			type: 'Stack',
-			props: { gap: 12, direction: 'vertical' },
+			props: { gap: 'md', direction: 'vertical' },
 			children: ['name-input', 'name-display']
 		},
 		'name-input': {
 			type: 'Input',
 			props: {
+				label: 'Name',
+				name: 'name',
 				value: { $bindState: '/name' },
 				placeholder: 'Enter your name…'
 			}
@@ -110,9 +108,8 @@ export const demoSpec: Spec = {
 		'name-display': {
 			type: 'Text',
 			props: {
-				content: { $state: '/name' },
-				size: 'md',
-				color: '#6b7280'
+				text: { $state: '/name' },
+				variant: 'muted'
 			}
 		}
 	}

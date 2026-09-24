@@ -16,6 +16,12 @@ export default defineConfig({
 			adapter: adapter()
 		})
 	],
+	ssr: {
+		noExternal: ['@json-render/shadcn-svelte']
+	},
+	optimizeDeps: {
+		exclude: ['@json-render/shadcn-svelte', '@json-render/svelte']
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [
