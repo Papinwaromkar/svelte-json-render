@@ -8,6 +8,14 @@
 	} from '@json-render/svelte';
 	import type { Spec } from '@json-render/core';
 	import { registry } from '$lib/registry.js';
+	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+	import {
+		analyticsSpec,
+		crmSpec,
+		ecommerceSpec,
+		settingsSpec
+	} from '$lib/dashboards/index.js';
 
 	// Component template definitions for the palette
 	interface ComponentTemplate {
@@ -189,6 +197,38 @@
 
 	// Preset Templates
 	const PRESETS: Record<string, { label: string; elements: Spec['elements']; state: Record<string, any>; rootChildren: string[] }> = {
+		analytics: {
+			label: 'Executive Analytics',
+			state: analyticsSpec.state ?? {},
+			rootChildren: (analyticsSpec.elements.root as any)?.children ?? [],
+			elements: Object.fromEntries(
+				Object.entries(analyticsSpec.elements).filter(([key]) => key !== 'root')
+			)
+		},
+		crm: {
+			label: 'Sales CRM & Deals',
+			state: crmSpec.state ?? {},
+			rootChildren: (crmSpec.elements.root as any)?.children ?? [],
+			elements: Object.fromEntries(
+				Object.entries(crmSpec.elements).filter(([key]) => key !== 'root')
+			)
+		},
+		ecommerce: {
+			label: 'Store & Fulfillment',
+			state: ecommerceSpec.state ?? {},
+			rootChildren: (ecommerceSpec.elements.root as any)?.children ?? [],
+			elements: Object.fromEntries(
+				Object.entries(ecommerceSpec.elements).filter(([key]) => key !== 'root')
+			)
+		},
+		settings: {
+			label: 'Workspace Settings',
+			state: settingsSpec.state ?? {},
+			rootChildren: (settingsSpec.elements.root as any)?.children ?? [],
+			elements: Object.fromEntries(
+				Object.entries(settingsSpec.elements).filter(([key]) => key !== 'root')
+			)
+		},
 		'login-form': {
 			label: 'Login / Auth Form',
 			state: { email: '', remember: true },
@@ -252,6 +292,13 @@
 			}
 		}
 	};
+
+	onMount(() => {
+		const presetParam = page.url.searchParams.get('preset');
+		if (presetParam && PRESETS[presetParam]) {
+			loadPreset(presetParam);
+		}
+	});
 
 	// State for the editor
 	let elements = $state<Record<string, any>>({
@@ -534,24 +581,32 @@
 		<div class="flex items-center gap-2">
 			<!-- Presets dropdown -->
 			<div class="flex items-center gap-1.5 text-xs text-slate-400">
-				<span>Preset:</span>
-				<button
-					onclick={() => loadPreset('login-form')}
-					class="rounded-md border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-200 transition hover:bg-slate-700 hover:text-white"
+				<span>Load:</span>
+				<select
+					onchange={(e) => {
+						const val = (e.target as HTMLSelectElement).value;
+						if (val) loadPreset(val);
+					}}
+					class="rounded-md border border-slate-700 bg-slate-800/90 px-2 py-1 text-xs font-medium text-slate-200 focus:border-indigo-500 focus:outline-none"
 				>
-					Auth Form
-				</button>
-				<button
-					onclick={() => loadPreset('feedback-panel')}
-					class="rounded-md border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-200 transition hover:bg-slate-700 hover:text-white"
-				>
-					Dashboard Card
-				</button>
+					<option value="">Select a Dashboard / Preset...</option>
+					<optgroup label="Production Dashboards">
+						<option value="analytics">📈 Executive Analytics</option>
+						<option value="crm">💼 Sales CRM & Pipeline</option>
+						<option value="ecommerce">🛍️ Store Operations & Fulfillment</option>
+						<option value="settings">⚙️ Workspace Settings & Profile</option>
+					</optgroup>
+					<optgroup label="Component Templates">
+						<option value="login-form">🔑 Auth / Login Form</option>
+						<option value="feedback-panel">📊 Metric Banner Card</option>
+					</optgroup>
+				</select>
 				<button
 					onclick={resetSpec}
-					class="rounded-md border border-red-900/50 bg-red-950/30 px-2.5 py-1 text-xs font-medium text-red-300 transition hover:bg-red-900/50"
+					class="rounded-md border border-red-900/50 bg-red-950/30 px-2 py-1 text-xs font-medium text-red-300 transition hover:bg-red-900/50"
+					title="Clear Canvas"
 				>
-					Clear All
+					Clear
 				</button>
 			</div>
 
