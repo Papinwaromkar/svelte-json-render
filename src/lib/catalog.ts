@@ -4,14 +4,7 @@ import { z } from 'zod';
 
 export const catalog = schema.createCatalog({
 	components: {
-		Card: shadcnComponentDefinitions.Card,
-		Stack: shadcnComponentDefinitions.Stack,
-		Heading: shadcnComponentDefinitions.Heading,
-		Text: shadcnComponentDefinitions.Text,
-		Button: shadcnComponentDefinitions.Button,
-		Badge: shadcnComponentDefinitions.Badge,
-		Input: shadcnComponentDefinitions.Input,
-		Checkbox: shadcnComponentDefinitions.Checkbox
+		...shadcnComponentDefinitions
 	},
 	actions: {
 		increment: {
