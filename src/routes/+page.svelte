@@ -1,3 +1,13 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { StateProvider } from '@json-render/svelte';
+	import { demoSpec } from '$lib/spec.js';
+	import DemoRenderer from '$lib/DemoRenderer.svelte';
+
+	const initialState = demoSpec.state ?? {};
+</script>
+
+<main class="mx-auto max-w-xl py-8">
+	<StateProvider {initialState}>
+		<DemoRenderer />
+	</StateProvider>
+</main>

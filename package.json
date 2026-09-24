@@ -68,6 +68,7 @@
 	],
 	"dependencies": {
 		"@json-render/core": "^0.21.0",
-		"@json-render/svelte": "^0.21.0"
+		"@json-render/svelte": "^0.21.0",
+		"zod": "^4.6.5"
 	}
 }
